@@ -1,0 +1,93 @@
+---
+- name: Install Pip for Ansible dependencies
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - python-pip
+    - python-requests
+    - python3-pip
+    - python3-requests
+
+- name: Install Ansible dependencies
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - docker
+
+- name: Pull and Deploy IAM docker container
+  docker_image:
+    name: "{{ docker_iam_image }}"
+    tag: "{{ docker_iam_image_version }}"
+
+- name: Install iptables
+  package:
+    name: iptables-persistent
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: flush iptables
+  command: iptables --flush
+  tags:
+    - skip_ansible_lint
+
+- name: Determine network bridge
+  command: docker network inspect bridge
+  register: docker_interface
+  tags:
+    - skip_ansible_lint
+
+- name: Set Docker network interface
+  set_fact:
+    # yamllint disable-line rule:line-length
+    docker_interface: "{{ docker_interface.stdout|from_json|json_query('[0].Options.\"com.docker.network.bridge.name\"') }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Configure iptables REDIRECT rule
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: "{{ docker_interface }}"
+    protocol: tcp
+    destination: "169.254.169.254"
+    destination_port: 80
+    to_ports: "{{ docker_iam_port }}"
+    jump: REDIRECT
+
+- name: save iptables
+  shell: /sbin/iptables-save > /etc/network/iptables.rules
+  tags:
+    - skip_ansible_lint
+  when: ansible_distribution == 'Ubuntu'
+
+#  Currently ansible doesn't support userns host as an argument
+# - name: Create IAM container
+#   docker_container:
+#     name: iam-docker
+#     image: "{{ docker_iam_image }}:{{ docker_iam_image_version }}"
+#     state: started
+#     restart_policy: 'unless-stopped'
+#     network_mode: host
+#     command: "/iam-docker --listen-addr :{{ docker_iam_port }}"
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+
+
+- name: Determine iam running
+  command: docker inspect iam-docker
+  register: docker_iam_inspect
+  ignore_errors: "yes"
+  tags:
+    - skip_ansible_lint
+
+- name: Set Docker iam running
+  set_fact:
+    docker_iam_inspect: "{{ docker_iam_inspect.rc }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Create IAM container
+  # yamllint disable-line rule:line-length
+  command: "docker run -d --restart unless-stopped --userns host --net host -v /var/run/docker.sock:/var/run/docker.sock --name iam-docker {{ docker_iam_image }}:{{ docker_iam_image_version }} /iam-docker --listen-addr :{{ docker_iam_port }}"
+  when: docker_iam_inspect == '1'

@@ -1,0 +1,24 @@
+---
+- include_tasks: "{{ ansible_distribution }}_repo.yml"
+
+- import_tasks: user_namespaces.yml
+  when: docker_userns_remap != ""
+
+- import_tasks: configuration.yml
+
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: started
+    enabled: "yes"
+
+- name: Install Docker Compose (if configured).
+  get_url:
+    # yamllint disable-line rule:line-length
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
+  when: docker_install_compose
+
+- import_tasks: iam_configuration.yml
+  when: docker_iam

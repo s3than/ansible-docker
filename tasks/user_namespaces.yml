@@ -1,0 +1,34 @@
+---
+- name: Check default username
+  set_fact:
+    docker_userns_remap_user: 'dockremap'
+  when: docker_userns_remap == 'default'
+
+- name: Check default username
+  set_fact:
+    docker_userns_remap_user: '{{ docker_userns_remap }}'
+  when: docker_userns_remap != 'default'
+
+- name: Create Namespaced group
+  group:
+    name: '{{ docker_userns_remap_user }}'
+    state: present
+
+- name: Create Namespaced user
+  user:
+    name: '{{ docker_userns_remap_user }}'
+    comment: 'Docker Namespace User'
+    uid: 1099
+    group: '{{ docker_userns_remap_user }}'
+
+- name: Create subuid file
+  lineinfile:
+    path: /etc/subuid
+    line: '{{ docker_userns_remap_user }}:500000:65536'
+    create: true
+
+- name: Create subgid file
+  lineinfile:
+    path: /etc/subgid
+    line: '{{ docker_userns_remap_user }}:500000:65536'
+    create: true

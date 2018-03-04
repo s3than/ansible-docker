@@ -1,0 +1,21 @@
+{
+  "disable-legacy-registry": {{ docker_disable_legacy_registry }},
+  "dns": {{ docker_dns | to_json }},
+  "dns-opts": [],
+  "graph": "{{ docker_graph }}",
+  "icc": {{ docker_icc }},
+  "live-restore": {{ docker_live_restore }},
+  "log-driver": "{{ docker_log_driver }}",
+  "log-level": "{{ docker_log_level }}",
+  "log-opts": {{ docker_log_options }},
+  "storage-driver": "{{ docker_storage_driver }}",
+  "storage-opts": {{ docker_storage_opts }},
+  "tls": {{ docker_tls }},
+  {% if docker_tls == "true" %}
+  "tlscacert": "{{ docker_tlscacert }}",
+  "tlskey": "{{ docker_tlskey }}",
+  "tlscert": "{{ docker_tlscert }}",
+  "tlsverify": {{ docker_tlsverify }},
+  {% endif %}
+  "userns-remap": "{{ docker_userns_remap }}"
+}

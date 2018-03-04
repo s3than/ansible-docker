@@ -1,0 +1,29 @@
+---
+- name: Configure Ubuntu Dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: "yes"
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+# Add an Apt signing key, uses whichever key is at the URL
+- name: Add Docker apt key
+  apt_key:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    state: present
+
+# Add specified repository into sources list.
+- apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu zesty stable
+    state: present
+
+- name: Install Docker CE
+  apt:
+    allow_unauthenticated: "yes"
+    name: "{{ docker_package }}={{ docker_version }}"
+    state: present
+    update_cache: "yes"

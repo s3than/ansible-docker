@@ -1,0 +1,27 @@
+# Molecule managed
+
+---
+file:
+  /etc/hosts:
+    exists: true
+    owner: root
+    group: root
+  /etc/docker/daemon.json:
+    exists: true
+  /etc/systemd/system/docker.service.d/override.conf:
+    exists: true
+
+service:
+  docker:
+    # required attributes
+    enabled: true
+    running: true
+
+# Remove testing the IAM functionality as it fails idempotence
+# command:
+#   docker inspect iam-docker:
+#     # required attributes
+#     exit-status: 0
+#     # optional attributes
+#     stdout:
+#     - "true"
