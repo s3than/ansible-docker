@@ -6,4 +6,4 @@
     - docker_iam: false
     - docker_storage_driver: 'vfs'
   roles:
-    - role: ansible-docker
+    - role: project
