@@ -1,5 +1,7 @@
 # Ansible Role: Docker Installer
 
+[![CircleCI](https://circleci.com/gh/s3than/ansible-docker/tree/master.svg?style=svg)](https://circleci.com/gh/s3than/ansible-docker/tree/master)
+
 An Ansible role that installs Docker on Ubuntu
 
 ## Requirements
