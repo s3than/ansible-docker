@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: s3than/molecule:latest
+    steps:
+      - checkout
+      - setup_remote_docker      
+      - run: molecule test
