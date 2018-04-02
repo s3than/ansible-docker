@@ -21,4 +21,4 @@
   when: docker_install_compose
 
 - import_tasks: iam_configuration.yml
-  when: docker_iam
+  when: docker_iam and docker_dns == "false"

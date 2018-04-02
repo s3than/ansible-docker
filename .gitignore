@@ -1,2 +1,2 @@
 .cache/
-molecule/default/.molecule
+molecule/*/.molecule

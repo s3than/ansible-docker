@@ -27,7 +27,6 @@
         dest: "{{ goss_dst }}"
         sha256sum: "{{ goss_sha256sum }}"
         mode: 0755
-        validate_certs: false
 
     - name: Copy Goss tests to remote
       copy:

@@ -24,12 +24,6 @@
   package:
     name: iptables-persistent
     state: present
-  when: ansible_distribution == 'Ubuntu'
-
-- name: flush iptables
-  command: iptables --flush
-  tags:
-    - skip_ansible_lint
 
 - name: Determine network bridge
   command: docker network inspect bridge
@@ -59,7 +53,6 @@
   shell: /sbin/iptables-save > /etc/network/iptables.rules
   tags:
     - skip_ansible_lint
-  when: ansible_distribution == 'Ubuntu'
 
 #  Currently ansible doesn't support userns host as an argument
 # - name: Create IAM container

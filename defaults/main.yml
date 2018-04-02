@@ -7,11 +7,12 @@ docker_install_compose: true
 docker_compose_version: '1.14.0'
 
 # Docker IAM configuration
+# If docker_dns is not set to false iam-docker will not be installed
 docker_iam: false
 docker_iam_port: "8080"
 docker_interface: docker0
 docker_iam_image: "swipely/iam-docker"
-docker_iam_image_version: "1.2.0"
+docker_iam_image_version: "v1.2.0"
 
 # Daemon configuration
 docker_icc: "false"
@@ -47,15 +48,16 @@ docker_tlscert: ""
 docker_tlsverify: "false"
 
 # Start User Namespace mapping
-# Username and Group name for userns, defult uses
+# Username and Group name for userns, default uses
 # dockremap as the username and groupname
-docker_userns_remap: "default"
+docker_userns_remap: ""
 
+# When using Ec2 IAM --net host no longer works unless pointing to aws DNS
 docker_dns_add_local: true
-
-docker_dns:
-  - 8.8.8.8
-  - 8.8.4.4
+# docker_dns: false will allow using the default configuration
+docker_dns: "false"
+# - 8.8.8.8
+# - 8.8.4.4
 
 # Variable to configure the which type of logging to use
 # Options: "json-file", "gelf"
