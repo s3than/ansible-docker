@@ -1,9 +1,5 @@
 extends: default
 
-ignore: |
-  molecule/
-  roles/
-
 rules:
   braces:
     max-spaces-inside: 1

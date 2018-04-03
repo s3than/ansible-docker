@@ -19,6 +19,3 @@
     dest: /usr/local/bin/docker-compose
     mode: 0755
   when: docker_install_compose
-
-- import_tasks: iam_configuration.yml
-  when: docker_iam

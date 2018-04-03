@@ -9,7 +9,6 @@ platforms:
     command: /sbin/init
     capabilities:
       - SYS_ADMIN
-    tty: true
     privileged: true
     volumes:
       - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
@@ -21,20 +20,15 @@ platforms:
       - "seccomp:unconfined"
 provisioner:
   name: ansible
+  inventory:
+    group_vars:
+      all:
+        docker_storage_driver: 'vfs'
   lint:
     name: ansible-lint
 scenario:
   name: default
-  test_sequence:
-    - lint
-    - destroy
-    - syntax
-    - create
-    - converge
-    - idempotence
-    - verify
-    - destroy
 verifier:
   name: goss
   lint:
-    name: 'None'
+    name: flake8

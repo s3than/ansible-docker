@@ -14,7 +14,7 @@
 - name: Docker DNS configuration
   set_fact:
     docker_dns: "{{ ansible_dns.nameservers + docker_dns }}"
-  when: docker_dns_add_local == True
+  when: docker_dns_add_local == true and docker_dns != "false"
 
 - name: Add Docker configuration.
   template:
