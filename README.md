@@ -20,13 +20,6 @@ Available variables are listed below, along with default values:
     docker_install_compose: true
     docker_compose_version: '1.14.0'
 
-    # Docker IAM configuration
-    docker_iam: false
-    docker_iam_port: "8080"
-    docker_interface: docker0
-    docker_iam_image: "swipely/iam-docker"
-    docker_iam_image_version: "1.2.0"
-
     # Daemon configuration
     docker_icc: "false"
     docker_live_restore: "true"
@@ -82,10 +75,6 @@ Available variables are listed below, along with default values:
     # Log options documentation can be found here:
     # https://docs.docker.com/engine/admin/logging/gelf/#usage
     # https://docs.docker.com/engine/admin/logging/json-file/#options
-
-## IAM Docker
-
-Additionally the functionality of IAM Docker is included which enables using IAM roles within containers on AWS
 
 ## Dependencies
 

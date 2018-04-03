@@ -6,7 +6,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Testing for IAM docker
 - Confirmation of username spaces
 
 ### Todo

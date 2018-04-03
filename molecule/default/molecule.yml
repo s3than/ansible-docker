@@ -23,12 +23,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        docker_iam: false
         docker_storage_driver: 'vfs'
-  playbooks:
-    create: ../resources/create.yml
-    converge: ../resources/playbook.yml
-    destroy: ../resources/destroy.yml
   lint:
     name: ansible-lint
 scenario:

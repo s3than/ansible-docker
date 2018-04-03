@@ -6,14 +6,6 @@ docker_version: '17*'
 docker_install_compose: true
 docker_compose_version: '1.14.0'
 
-# Docker IAM configuration
-# If docker_dns is not set to false iam-docker will not be installed
-docker_iam: false
-docker_iam_port: "8080"
-docker_interface: docker0
-docker_iam_image: "swipely/iam-docker"
-docker_iam_image_version: "v1.2.0"
-
 # Daemon configuration
 docker_icc: "false"
 docker_live_restore: "true"

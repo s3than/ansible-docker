@@ -15,12 +15,3 @@ service:
     # required attributes
     enabled: true
     running: true
-
-# Remove testing the IAM functionality as it fails idempotence
-# command:
-#   docker inspect iam-docker:
-#     # required attributes
-#     exit-status: 0
-#     # optional attributes
-#     stdout:
-#     - "true"
