@@ -42,4 +42,5 @@
     name: "{{ item }}"
     groups: docker
     append: "yes"
-  with_items: {{ docker_add_to_group }}
+  with_items:
+    - "{{ docker_add_to_group }}"
