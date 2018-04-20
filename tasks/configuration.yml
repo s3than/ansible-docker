@@ -37,8 +37,9 @@
     name: docker
     state: present
 
-- name: Add ansible to the docker group
+- name: Add users to the docker group
   user:
-    name: ansible
+    name: "{{ item }}"
     groups: docker
     append: "yes"
+  with_items: {{ docker_add_to_group }}
