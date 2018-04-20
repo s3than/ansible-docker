@@ -2,6 +2,9 @@
 docker_package: 'docker-ce'
 docker_version: '17*'
 
+docker_add_to_group:
+  - ansible
+
 # Docker Compose options.
 docker_install_compose: true
 docker_compose_version: '1.14.0'
